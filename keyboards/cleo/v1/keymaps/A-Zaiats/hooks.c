@@ -1,4 +1,5 @@
 #include "../hooks_base.c"
+#include "features/achordion.h"
 
 void keyboard_post_init_user(void) {
     rgblight_sethsv(HSV_BLUE);
@@ -6,6 +7,15 @@ void keyboard_post_init_user(void) {
 
 void housekeeping_task_user() {
     hooks_housekeeping_task_user();
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+    if (!process_achordion(keycode, record)) { return false; }
+    return true;
+}
+
+void matrix_scan_user(void) {
+    achordion_task();
 }
 
 void caps_word_set_user(bool active) {
